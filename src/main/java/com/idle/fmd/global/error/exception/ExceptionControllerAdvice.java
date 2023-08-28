@@ -46,7 +46,7 @@ public class ExceptionControllerAdvice {
         String message = exception.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
 
         Map<String, String> response = new HashMap<>();
-        response.put("Message", message);
+        response.put("message", message);
 
         return response;
     }

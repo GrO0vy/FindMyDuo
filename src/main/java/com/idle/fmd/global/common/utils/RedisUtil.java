@@ -79,6 +79,8 @@ public class RedisUtil {
     public String issueNewAccessToken(String token){
         // 기존 리프레쉬 토큰에 접근해서 유저 아이디를 알아낸다.
         String key = "refreshToken:" + token;
+        log.info(redisTemplate.keys("*").toString());
+        log.info(redisTemplate.opsForValue().get(key));
         String accountId = redisTemplate.opsForValue().get(key);
 
         // 알아낸 유저 아이디로 새로운 액세스 토큰을 만든다.

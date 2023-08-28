@@ -2,8 +2,10 @@ package com.idle.fmd.domain.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class UserLoginRequestDto {
 
     @NotBlank(message = "아이디를 입력해주세요")

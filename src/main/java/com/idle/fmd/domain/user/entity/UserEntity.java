@@ -43,7 +43,7 @@ public class UserEntity {
     private String profileImage;
 
     // 구해듀오 회원의 롤 계정정보
-    @OneToOne
+    @OneToOne(mappedBy = "user")
     @JoinColumn(name = "lol_account")
     private LolEntity lolAccount;
 

@@ -41,10 +41,19 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain
     ) throws ServletException, IOException {
-        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.split(" ")[1];
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String requestUrl = request.getRequestURI();
+
+        if (authHeader != null && authHeader.startsWith("Bearer ") || requestUrl.startsWith("/ws")) {
+            String token;
+
+            if(requestUrl.startsWith("/ws/chat")) {
+                token = request.getQueryString().replace("Authorization=", "");
+                token = token.substring(0,token.indexOf("&"));
+            }
+            else token = authHeader.split(" ")[1];
+
 
             // 토큰이 유효하다면 인증정보 등록 후 다음 필터 실행
             if(jwtTokenUtils.validate(token)){
@@ -75,6 +84,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
                     // 응답 바디의 데이터 형태를 JSON 으로 설정 후 데이터와 함께 응답
                     response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(responseBody);
 
                     log.info("새 AccessToken 발급: " + newAccessToken);
@@ -82,7 +92,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 // 리프레쉬 토큰을 가지고 있지 않으면 로그인되어 있지 않은 것으로 간주한다.
                 else{
                     log.error("Does not have refresh token ( 로그아웃 상태 )");
-                    response.setStatus(400);
+                    response.setStatus(403);
                     log.info(token);
                 }
                 return;

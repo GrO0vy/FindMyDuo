@@ -104,4 +104,10 @@ public class CustomUserDetailsManager implements UserDetailsManager {
         userRepository.save(userEntity);
     }
 
+    public UserEntity loadUserEntityByAccountId(String accountId){
+        if(!userExists(accountId))
+            throw new UsernameNotFoundException(accountId);
+
+        return userRepository.findByAccountId(accountId).get();
+    }
 }

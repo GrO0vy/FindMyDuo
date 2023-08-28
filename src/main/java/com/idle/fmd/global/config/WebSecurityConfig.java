@@ -35,6 +35,8 @@ public class WebSecurityConfig {
                                         "/users/oauth-fail" // oauth 실패 시 리다이렉트 url
                                 )
                                 .anonymous()
+                                .requestMatchers("/chat/**", "ws://localhost:8080/ws/chat","/main", "/ws/chat","/login","/js/**")
+                                .permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )

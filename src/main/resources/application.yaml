@@ -27,7 +27,7 @@ spring :
       max-file-size: 50MB
       max-request-size: 50MB
   mvc:
-    static-path-pattern:
+    static-path-pattern: /**
   web:
     resources:
       static-locations: classpath:/static
@@ -56,6 +56,16 @@ spring :
       host: ${SPRING_CACHE_REDIS_HOST}
       port: ${SPRING_CACHE_REDIS_PORT}
       password: ${SPRING_CACHE_REDIS_PASSWORD}
+
+  rabbitmq:
+    username: olaetnve
+    password: KiX-MB8G-PsfNOi53qawvlnzg1p7W4Uq
+    host: dingo-01.rmq.cloudamqp.com
+    virtual-host: olaetnve
+    queue.name: sample.queue
+    exchange.name: sample.exchange
+    routing.key: sample.key
+    port: 5672
 
 jwt:
   secret: ${SPRING_JWT_SECRETE}

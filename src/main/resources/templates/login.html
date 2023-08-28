@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    아이디: <input id = "accountId">
+    비밀번호: <input id = "password">
+  <button id = "login-button">로그인</button>
+</body>
+<script>
+    document.getElementById("login-button").addEventListener("click", function(){
+        const accountId = document.getElementById("accountId").value
+        const password = document.getElementById("password").value
+        console.log(accountId.toString())
+        console.log(password.toString())
+        const url = "/users/login"
+        fetch(url, {
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+                {
+                    accountId: accountId,
+                    password: password
+                }
+            )
+        })
+            .then(function (response){
+                return response.json()
+            })
+            .then(function (json){
+                if(json.token != undefined){
+                    const jwt = json.token;
+                    localStorage.setItem("token", jwt);
+                    alert("로그인에 성공했습니다!")
+                    location.href = "/main"
+                }
+                else{
+                    alert(json.message)
+                    location.href = "/login"
+                }
+            })
+    })
+</script>
+</html>
