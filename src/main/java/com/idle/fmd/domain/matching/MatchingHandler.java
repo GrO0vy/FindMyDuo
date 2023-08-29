@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
@@ -20,6 +21,7 @@ import java.util.Map;
 public class MatchingHandler extends TextWebSocketHandler{
     private final CustomUserDetailsManager manager;
     private final JwtTokenUtils jwtTokenUtils;
+    private final TierReader tierReader;
     private final List<WebSocketSession> sessions = new ArrayList<>();
 
     // 새로운 웹 소켓이 연결될 때 마다 실행되는 메서드 ( 매칭 대기열에 새로운 유저가 들어왔을 때 실행 )
@@ -27,6 +29,8 @@ public class MatchingHandler extends TextWebSocketHandler{
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         // 내 정보를 session 의 속성에 등록하고 매칭 대기열에 추가
         registerClientInfo(session);
+
+
     }
 
     // 토큰에서 accountID 를 추출해내서 반환하는 메서드
@@ -106,5 +110,24 @@ public class MatchingHandler extends TextWebSocketHandler{
 
         // 매칭 대기열에 추가
         sessions.add(session);
+    }
+
+    public void connectUser(WebSocketSession session){
+        for(WebSocketSession connected: sessions){
+            if(
+                    connected.getAttributes().get("mode").equals(session.getAttributes().get("mode")) &&
+                            connected.getAttributes().get("duoLine").equals(session.getAttributes().get("myLine")) &&
+                            connected.getAttributes().get("myLine").equals(session.getAttributes().get("duoLine"))
+            ){
+                boolean tierInRange = false;
+                String myTier = session.getAttributes().get("tier").toString();
+                String duoTier = connected.getAttributes().get("tier").toString();
+                String mode = session.getAttributes().get("mode").toString();
+
+                if(mode.equals("solo")) tierInRange = tierReader.soloTierInRange(myTier, duoTier);
+                if(mode.equals("flex")) tierInRange = tierReader.flexTierInRange(myTier, duoTier);
+
+            }
+        }
     }
 }

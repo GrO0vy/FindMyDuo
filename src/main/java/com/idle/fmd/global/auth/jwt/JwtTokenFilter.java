@@ -42,9 +42,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain
     ) throws ServletException, IOException {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String requestUrl = request.getRequestURI();
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.split(" ")[1];
+        if (authHeader != null && authHeader.startsWith("Bearer ") || requestUrl.startsWith("/ws/matching")) {
+            String token;
+
+            if(requestUrl.startsWith("/ws/matching")) {
+                token = request.getQueryString().replace("Authorization=", "");
+                token = token.substring(0,token.indexOf("&"));
+            }
+            else token = authHeader.split(" ")[1];
 
             // 토큰이 유효하다면 인증정보 등록 후 다음 필터 실행
             if(jwtTokenUtils.validate(token)){
