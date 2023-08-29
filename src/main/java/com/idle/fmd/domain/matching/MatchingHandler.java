@@ -130,7 +130,6 @@ public class MatchingHandler extends TextWebSocketHandler{
                 if(tierInRange){
                     UserEntity userEntity = manager.loadUserEntityByNickname(session.getAttributes().get("nickname").toString());
                     MatchingResponseDto myInfo = new MatchingResponseDto();
-                    myInfo
                 }
             }
         }
