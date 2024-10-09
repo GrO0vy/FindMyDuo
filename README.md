@@ -10,8 +10,6 @@
 | <img src="https://avatars.githubusercontent.com/u/130991633?v=4" width="130" height="130"> | <img src="https://avatars.githubusercontent.com/u/89755903?v=4" width="130" height="130"> | <img src="https://avatars.githubusercontent.com/u/83864280?s=32&v=4" width="130" height="130"> | <img src="https://avatars.githubusercontent.com/u/112999436?v=4" width="130" height="130"> | <img src="https://avatars.githubusercontent.com/u/131418584?v=4" width="130" height="130"> |
 |:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
 |                              [장용진](https://github.com/jyj9111)                               |                             [이민철](https://github.com/GrO0vy)                              |                             [이효주](https://github.com/Leehyoju97)                              |                              [김하늘](https://github.com/gureumi74)                              |                          [김구하](https://github.com/KoohaKim)                           |
-
-### 배포주소: http://ec2-3-39-135-200.ap-northeast-2.compute.amazonaws.com:8081/main
      
 설치 방법
 ``` bash
